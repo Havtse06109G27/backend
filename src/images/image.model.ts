@@ -1,17 +1,21 @@
-import { Schema, Document, Date } from 'mongoose';
-
-export interface Image extends Document {
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+@Schema()
+export class Image extends Document {
+    @Prop()
     name: string;
+
+    @Prop()
     size: string;
+
+    @Prop()
     type: string;
-    createdDate: Date;
+
+    @Prop()
+    createdAt: Date;
+
+    @Prop()
     concept: string;
 }
 
-export const ImageSchema = new Schema({
-    name: String,
-    size: String,
-    type: String,
-    createdDate: Date,
-    concept: String,
-});
+export const ImageSchema = SchemaFactory.createForClass(Image);
