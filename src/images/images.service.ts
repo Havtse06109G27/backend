@@ -12,6 +12,7 @@ export class ImageService {
       name: file.originalname,
       type: file.mimetype,
       size: file.size,
+      createdDate: Date.now(),
     };
 
     const newImage = new this.imageModel(imageData);
@@ -20,5 +21,25 @@ export class ImageService {
 
   async getAllImages(): Promise<Image[]> {
     return await this.imageModel.find().exec();
+  }
+
+  async searchImagesByName(name: string): Promise<Image[]> {
+    const images = await this.imageModel.find({ name: { $regex: name, $options: 'i' } }).exec();
+    return images;
+  }
+
+  async searchImagesByType(type: string): Promise<Image[]> {
+    const images = await this.imageModel.find({ type: { $regex: type, $options: 'i' } }).exec();
+    return images;
+  }
+
+  async searchImagesByDate(createdAt: Date): Promise<Image[]> {
+    const images = await this.imageModel.find({ createdAt }).exec();
+    return images;
+  }
+
+  async searchImagesByConcept(concept: string): Promise<Image[]> {
+    const images = await this.imageModel.find({ concept: { $regex: concept, $options: 'i' } }).exec();
+    return images;
   }
 }
